@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.26.1",
+    "moment": "^2.29.2",
     "next": "12.1.5",
+    "query-string": "^7.1.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "uuidv4": "^6.2.13"
