@@ -1,2 +1,0 @@
-# cognizant
- test
