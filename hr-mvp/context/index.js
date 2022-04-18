@@ -2,6 +2,8 @@ import React, { createContext, useReducer, useEffect } from "react";
 import reducer from "./reducers";
 import initialState from "./state";
 import { useActions } from "./actions";
+import Loading from "../components/modal/Loading";
+import CSVUploader from "../components/modal/CSVUploader";
 
 const HRMVPContext = createContext(initialState);
 
@@ -14,9 +16,11 @@ const HRMVPProvider = ({children}) => {
   }, [state]);
   
   return (
-    <HRMVP.Provider value={{ state, dispatch, actions }}>
+    <HRMVPContext.Provider value={{ state, dispatch, actions }}>
       {children}
-    </HRMVP.Provider>
+      <Loading />
+      <CSVUploader />
+    </HRMVPContext.Provider>
   );
 }
 

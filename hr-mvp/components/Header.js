@@ -8,7 +8,7 @@ function Header() {
             <div className='flex justify-between items-center' style={{backgroundColor:"#F3F3F3"}}>
                 <div className='flex justify-between]'>
                     <div className="relative flex w-32 items-center justify-center bg-blue-500 lg:w-[200px]">
-                        <p className='p-4 font-serif font-extrabold text-2xl text-white' >Test 123</p>
+                        <p className='p-4 font-serif font-extrabold text-2xl text-white' >HRMVP</p>
                     </div>
                     <div className='p-4 w-60 '>
                         <div className='h-10 py-2 px-3 rounded-2xl flex justify-between bg-white' style={{color:"#7c7c7c"}}>

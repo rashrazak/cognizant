@@ -1,6 +1,8 @@
 import React from 'react'
 import Sidebar from './Sidebar'
 import Header from './Header'
+import HeaderEmployee from './HeaderEmployee'
+import DisplayEmployee from './DisplayEmployee'
 
 function Layout() {
     return (
@@ -12,8 +14,11 @@ function Layout() {
             
             <div className="ml-[50px] w-auto lg:w-auto h-full lg:ml-[200px] pl-8 pt-4 pb-48 lg:p-4">
                 <div className='h-full overflow-y-hidden'>
-                    <h3 className='text-xl font-medium mb-3' style={{color:"#9f9f9f"}}>Products</h3>
+                    <h3 className='text-xl font-medium mb-3' style={{color:"#9f9f9f"}}>Employee Salary</h3>
                     <hr/>
+                    <HeaderEmployee />
+                    <hr/>
+                    <DisplayEmployee />
                 </div>
                 
             </div>
