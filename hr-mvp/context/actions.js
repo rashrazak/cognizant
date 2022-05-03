@@ -6,7 +6,8 @@ import {
     REMOVE_DATA,
     SET_DIALOG,
   } from "./types";
-  import * as FormData from 'form-data'
+  // import * as FormData from 'form-data'
+  import firebase from "../utils/firebase";
   
   
   export const useActions = (state, dispatch) => {
@@ -30,33 +31,26 @@ import {
         dispatch({ type: SET_DIALOG, data});
       },
 
-      uploadImages: ( files) =>{
+      findEmployeeValue: async () =>{
+        let employees = []
+        let x = await firebase.getEmployees()
+        await x.forEach(function(doc) {
+          let x = doc.id;
+          let y = doc.data()
+          console.log(y)
+          let data = {...y, idFirebase:x}
+          employees = [...employees, data]
+        })
 
-        let form = new FormData()
-        for (let index = 0; index < files.length; index++) {
-          if (file[index].size >= 2000000) {
-            alert("This file is more than 2MB")
-            continue;
-          }
-          form.append(`csv[${index}]`, files[index])
-        }
+        // employees.sort((a,b)=>{
+        //   return a.salary - b.salary
+        // })
+        actions.setData({employees, displayEmployees: employees})
+      },
 
-        if (files) {
-          return await axios({
-            method:'post',
-            url:`https://nphc-hr.free.beeceptor.com/employees/upload`,
-            data:form,
-            headers:{
-                'Content-Type': 'multipart/form-data',
-                'Accept' : 'application/json',
-            },
-            validateStatus:function(status){
-                return status >= 200 && status <= 300 || status === 400
-            }
-        })   
-        }
-            
-    },
+      deleteEmployee:(id) =>{
+        firebase.deleting(id)
+      }
       
     }
     return actions

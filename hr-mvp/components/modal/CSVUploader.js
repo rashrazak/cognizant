@@ -1,8 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react'
 import Main from './Main'
 import { HRMVPContext } from '../../context'
-import {IoMdArrowRoundForward} from 'react-icons/io'
-
+import firebase from '../../utils/firebase'
 function CSVUploader() {
 
     const {state, actions} = useContext(HRMVPContext)
@@ -18,38 +17,40 @@ function CSVUploader() {
         setLoading(true)
     }
 
-    const handleImageUpload = (e) => {
+    const handleCsvUpload = (e) => {
         setLoading(true)
+        // setClose()
         let files = e.target.files
-        
-            
-        for(let i = 0; i < files.length; i++) {
-            let name = files[i].name;
-            let type = files[i].type;
-            for (let index = 0; index < bookImages.length; index++) {
-                if (bookImages[index].originalName == name) {
-                    setLoading(false)
-                    alert(`You've uploaded this csv, please try a different csv.`)
 
-                    return false //stop loop and stop fn
-                }
-                if (!type.includes('csv')) {
-                    setLoading(false)
-                    alert(`${type} - Not Supported`)
+        for (let index = 0; index < files.length; index++) {
+            const file = files[index];
+            if (file) {
+                var r = new FileReader
+                r.onload = async function (e) {
+                    var contents = e.target.result;
+                    console.log(contents)
+                    var lines = contents.split("\n")
+                    for (var i=0; i<lines.length; i++){
+                        var param = {}
+                        let newLine = lines[i].split(',')
+                        newLine.map((v,i)=>{
+                            if (i == 0) param.id = `e${Math.floor((Math.random() * 10000) + 1)}` 
+                            if (i == 1) param.loginId = v
+                            if (i == 2) param.fullName = v
+                            if (i == 3) param.salary = parseFloat(v).toFixed(2)
 
-                    return false //stop loop and stop fn
+                        })
+                        await firebase.addEmployees(param)
+                        if (i == lines.length - 1) {
+                            setLoading(false)
+                            setClose()
+                        }
+
+                    }
                 }
+                r.readAsText(file)
             }
         }
-        
-        uploadImages(files).then((response) =>{
-            if (response) {
-               console.log(response)
-            }else{
-                setLoading(false)
-            }
-        })        
-        
     }
     return (
         <>
@@ -59,18 +60,17 @@ function CSVUploader() {
                 <div> 
                     <div className=''>
                         <div className='flex items-center mb-3'>
-                            <span className='font-normal text-black text-xs block flex-1'>Wallet balance</span>
                             <input
                                 type="file"
                                 accept=".csv"
-                                onChange={e => handleImageUpload(e)}
+                                onChange={e => handleCsvUpload(e)}
                                 multiple
                             />
                         </div>
                       
                     </div>
-                    <div className='mt-7'>
-                        <button className={`py-3 relative`} onClick={uploadCSV}>Submit API <IoMdArrowRoundForward className='absolute right-4 top-2/4 -translate-y-2/4'/></button>
+                    <div className='mt-7 float-right'>
+                        <button className={`py-3 relative`} onClick={setClose}>Close </button>
                     </div>
                 </div>
             </Main>

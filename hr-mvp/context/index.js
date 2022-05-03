@@ -4,6 +4,7 @@ import initialState from "./state";
 import { useActions } from "./actions";
 import Loading from "../components/modal/Loading";
 import CSVUploader from "../components/modal/CSVUploader";
+import EditEmployee from "../components/modal/EditEmployee";
 
 const HRMVPContext = createContext(initialState);
 
@@ -20,6 +21,7 @@ const HRMVPProvider = ({children}) => {
       {children}
       <Loading />
       <CSVUploader />
+      <EditEmployee />
     </HRMVPContext.Provider>
   );
 }
